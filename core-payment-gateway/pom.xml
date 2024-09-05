@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.core.payment.gateway</groupId>
-	<artifactId>core-payment-gateway</artifactId>
+	<artifactId>payment_gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>core-payment-gateway</name>
+	<name>payment_gateway</name>
 	<description>A secured payment gateway</description>
 	<url/>
 	<licenses>
