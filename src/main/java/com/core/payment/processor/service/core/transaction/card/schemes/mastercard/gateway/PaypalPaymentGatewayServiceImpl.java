@@ -15,7 +15,7 @@ public class PaypalPaymentGatewayServiceImpl implements PaymentGatewayService {
         return CardSchemeService.TransactionResult.builder()
                 .success(true)
                 .errorCode(null)
-                .message("Payment successfully processed")
+                .message("Payment successfully processed from paypal")
                 .transactionId(RandomStringUtils.randomAlphabetic(10))
                 .success(true)
                 .build();
@@ -26,7 +26,7 @@ public class PaypalPaymentGatewayServiceImpl implements PaymentGatewayService {
         return CardSchemeService.TransactionResult.builder()
                 .success(true)
                 .errorCode(null)
-                .message("Transaction successfully initiated successfully")
+                .message("Transaction successfully initiated successfully from paypal")
                 .transactionId(RandomStringUtils.randomAlphabetic(10))
                 .success(true)
                 .build();
@@ -37,7 +37,7 @@ public class PaypalPaymentGatewayServiceImpl implements PaymentGatewayService {
         return CardSchemeService.TransactionResult.builder()
                 .success(true)
                 .errorCode(null)
-                .message("Transaction was successfully reversed")
+                .message("Transaction was successfully reversed from paypal")
                 .transactionId(reference)
                 .success(true)
                 .build();
