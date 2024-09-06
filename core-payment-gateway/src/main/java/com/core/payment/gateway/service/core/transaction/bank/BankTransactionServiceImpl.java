@@ -9,6 +9,7 @@ import com.core.payment.gateway.common.enums.TransactionStatus;
 import com.core.payment.gateway.common.exceptions.ApplicationException;
 import com.core.payment.gateway.entity.Transaction;
 import com.core.payment.gateway.service.core.transaction.TransactionService;
+import com.core.payment.gateway.service.core.transaction.TransactionServiceImpl;
 import com.core.payment.gateway.service.core.transaction.wallet.WalletService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +30,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     private static final String PLATFORM_BANK_CODE = "066";
     private static final Logger log = LoggerFactory.getLogger(BankTransactionServiceImpl.class);
     private final WalletService walletService;
-    private final TransactionService transactionService;
+    private final TransactionServiceImpl transactionService;
     private final ObjectMapper objectMapper;
 
     @Override

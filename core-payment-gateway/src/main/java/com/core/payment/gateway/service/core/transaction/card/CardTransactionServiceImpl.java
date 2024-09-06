@@ -9,6 +9,7 @@ import com.core.payment.gateway.common.exceptions.ApplicationException;
 import com.core.payment.gateway.entity.Transaction;
 import com.core.payment.gateway.entity.Wallet;
 import com.core.payment.gateway.service.core.transaction.TransactionService;
+import com.core.payment.gateway.service.core.transaction.TransactionServiceImpl;
 import com.core.payment.gateway.service.core.transaction.card.schemes.CardSchemeService;
 import com.core.payment.gateway.service.core.transaction.card.schemes.mastercard.MasterCardSchemeServiceImpl;
 import com.core.payment.gateway.service.core.transaction.card.schemes.verve.VerveCardSchemeServiceImpl;
@@ -30,7 +31,7 @@ import java.time.LocalDateTime;
 public class CardTransactionServiceImpl implements CardTransactionService {
     private static final String MASKED_PAN_TEMP = "XXXX-XXXX-XXXX-%s";
     private static final String CARD_GATEWAY_RESPONSE = "OK";
-    private final TransactionService transactionService;
+    private final TransactionServiceImpl transactionService;
     private final ObjectMapper objectMapper;
     private final WalletService walletService;
     private final ApplicationContext context;

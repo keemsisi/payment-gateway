@@ -23,10 +23,12 @@ import java.time.LocalDateTime;
         @Index(name = "ix_wallet_account_number_uq", columnList = "account_number")
 })
 public class Wallet extends AbstractBaseEntity implements Serializable {
-    @Enumerated(EnumType.STRING)
+    @Column(name = "owner_id")
     private Long ownerId;
     private String reference;
+    @Column(name = "account_name")
     private String accountName;
+    @Column(name = "account_number")
     private String accountNumber;
     @Column(columnDefinition = "varchar(100) default 'PRIMARY'")
     private WalletType walletType;

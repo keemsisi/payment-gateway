@@ -8,6 +8,7 @@ import com.core.payment.gateway.common.exceptions.ApplicationException;
 import com.core.payment.gateway.entity.Transaction;
 import com.core.payment.gateway.entity.Wallet;
 import com.core.payment.gateway.service.core.transaction.TransactionService;
+import com.core.payment.gateway.service.core.transaction.TransactionServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class WalletTransactionServiceImpl implements WalletTransactionService {
-    private final TransactionService transactionService;
+    private final TransactionServiceImpl transactionService;
     private final WalletService walletService;
     private final ObjectMapper objectMapper;
 
