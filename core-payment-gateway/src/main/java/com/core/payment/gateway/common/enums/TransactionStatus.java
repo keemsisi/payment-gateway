@@ -1,0 +1,10 @@
+package com.core.payment.gateway.common.enums;
+
+public enum TransactionStatus {
+    SUCCESS,
+    PENDING,
+    FAILED,
+    REVERSED,
+    REFUNDED,
+    NEW
+}
