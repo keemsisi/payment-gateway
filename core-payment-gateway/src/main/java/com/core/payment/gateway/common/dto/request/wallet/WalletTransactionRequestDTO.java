@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class WalletTransactionRequestDTO extends TransactionRequestDTO {
     @NotBlank(message = "senderWalletId can't be blank")
-    private String senderWalletId;
+    private Long senderWalletId;
     @NotBlank(message = "receiverWalletId can't be blank")
-    private String receiverWalletId;
+    private Long receiverWalletId;
 }

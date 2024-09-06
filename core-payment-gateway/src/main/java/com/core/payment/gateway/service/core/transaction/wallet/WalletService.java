@@ -19,7 +19,5 @@ public interface WalletService {
 
     void creditWallet(Transaction transaction, Wallet wallet);
 
-    void debitWallet(Wallet wallet, BankTransferTransactionRequestDTO request);
-
     void debitWallet(Transaction transaction, Wallet wallet);
 }

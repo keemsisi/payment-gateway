@@ -4,9 +4,10 @@ import com.core.payment.gateway.common.dto.request.bank.BankAccountLookUpRequest
 import com.core.payment.gateway.common.dto.request.bank.BankTransferTransactionRequestDTO;
 import com.core.payment.gateway.common.dto.response.GenericApiResponse;
 import com.core.payment.gateway.common.dto.response.bank.BankAccountLookUpResponseDTO;
-import com.core.payment.gateway.common.dto.response.bank.BankTransferTransactionResponseDTO;
 import com.core.payment.gateway.common.enums.ResponseCodeMapping;
+import com.core.payment.gateway.entity.Transaction;
 import com.core.payment.gateway.service.core.transaction.bank.BankTransactionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ public class BankTransferController {
     private BankTransactionService transactionService;
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<BankTransferTransactionResponseDTO>> initTransfer(@Valid @RequestBody BankTransferTransactionRequestDTO request) {
+    public ResponseEntity<GenericApiResponse<Transaction>> initTransfer(@Valid @RequestBody BankTransferTransactionRequestDTO request) throws JsonProcessingException {
         final var transaction = transactionService.initTransfer(request);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.BANK_TRANSFER_INIT_OK.getMessage(),
                 ResponseCodeMapping.BANK_TRANSFER_INIT_OK.getCode(), true), HttpStatus.OK);
@@ -34,4 +35,12 @@ public class BankTransferController {
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.BANK_LOOKUP_OK.getMessage(),
                 ResponseCodeMapping.BANK_LOOKUP_OK.getCode(), true), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/{transactionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GenericApiResponse<Transaction>> getByCardTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
+        final var transaction = transactionService.getGetWalletTransactionById(transactionId);
+        return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.OK.getMessage(),
+                ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
+    }
+
 }

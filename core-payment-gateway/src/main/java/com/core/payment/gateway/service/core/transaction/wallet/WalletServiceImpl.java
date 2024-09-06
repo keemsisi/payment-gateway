@@ -78,11 +78,6 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void debitWallet(Wallet wallet, BankTransferTransactionRequestDTO request) {
-
-    }
-
-    @Override
     public void debitWallet(final Transaction transaction, final Wallet wallet) {
         final var balanceBefore = wallet.getBalanceAfter();
         final var netAmount = balanceBefore.subtract(transaction.getAmount());

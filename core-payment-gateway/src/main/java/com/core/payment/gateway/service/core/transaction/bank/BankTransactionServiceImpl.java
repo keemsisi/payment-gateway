@@ -38,7 +38,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
         final var hasBalance = wallet.getBalanceAfter().compareTo(BigDecimal.ZERO) > 0;
         final var transaction = createTransaction(request);
         if (hasBalance) {
-            walletService.debitWallet(wallet, request);
+            walletService.debitWallet(transaction, wallet);
             log.info(">>> Wallet debit was successful for bank transfer{}", request);
         } else {
             final var responseCode = ResponseCodeMapping.WALLET_TRANSACTION_INSUFFICIENT_BALANCE;
