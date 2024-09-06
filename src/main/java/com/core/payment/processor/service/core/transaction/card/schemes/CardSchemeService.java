@@ -1,10 +1,7 @@
 package com.core.payment.processor.service.core.transaction.card.schemes;
 
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -26,6 +23,7 @@ public interface CardSchemeService {
 
     String getErrorDescription(String errorCode);
 
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter

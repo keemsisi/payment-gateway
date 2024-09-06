@@ -2,6 +2,7 @@ package com.core.payment.processor.service.core.transaction.card.schemes.masterc
 
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.service.core.transaction.card.schemes.CardSchemeService;
+import com.core.payment.processor.service.core.transaction.card.schemes.mastercard.gateway.PaypalPaymentGatewayServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 @Component(value = "masterCardScheme")
 @AllArgsConstructor
 public class MasterCardSchemeServiceImpl implements CardSchemeService {
-
+    private PaypalPaymentGatewayServiceImpl paymentGatewayService;
     @Override
     public boolean validateExpiryDate(String expiryDate) {
         return false;
@@ -24,7 +25,7 @@ public class MasterCardSchemeServiceImpl implements CardSchemeService {
 
     @Override
     public TransactionResult authorizeTransaction(final CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {
-        return null;
+        return paymentGatewayService.process();
     }
 
     @Override

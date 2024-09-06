@@ -1,4 +1,4 @@
-package com.core.payment.processor.payment_gateway;
+package com.core.payment.processor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
