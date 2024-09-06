@@ -8,7 +8,7 @@
         <version>2.5.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.core.payment.gateway</groupId>
+    <groupId>com.core.payment.processor</groupId>
     <artifactId>payment_gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>payment_gateway</name>
