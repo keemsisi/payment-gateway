@@ -32,7 +32,7 @@ public class BankTransferController {
     }
 
     @RequestMapping(value = "/lookup", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<BankAccountLookUpResponseDTO>> lookUp(@Valid @RequestBody BankAccountLookUpRequestDTO request) {
+    public ResponseEntity<GenericApiResponse<BankAccountLookUpResponseDTO>> lookUp(@RequestBody BankAccountLookUpRequestDTO request) {
         final var transaction = transactionService.lookUp(request);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.BANK_LOOKUP_OK.getMessage(),
                 ResponseCodeMapping.BANK_LOOKUP_OK.getCode(), true), HttpStatus.OK);

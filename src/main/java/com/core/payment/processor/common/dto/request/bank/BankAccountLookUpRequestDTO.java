@@ -10,7 +10,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-@Valid
 @Builder
 @Data
 @AllArgsConstructor
@@ -18,7 +17,6 @@ import javax.validation.constraints.NotBlank;
 public class BankAccountLookUpRequestDTO {
     @NotBlank(message = "Account name must not be blank")
     private String accountName;
-    @Min(value = 10, message = "Min account number length must be 10")
     @Max(value = 10, message = "Max account number length must be 10")
     private String accountNumber;
     @NotBlank(message = "Bank code can't be blank")

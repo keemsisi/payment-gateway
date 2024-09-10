@@ -13,6 +13,7 @@ import com.core.payment.processor.service.core.transaction.wallet.WalletService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Transactional
 public class BankTransactionServiceImpl implements BankTransactionService {
-    private static final String PLATFORM_BANK_CODE = "066";
     private static final Logger log = LoggerFactory.getLogger(BankTransactionServiceImpl.class);
     private final WalletService walletService;
     private final TransactionServiceImpl transactionService;
@@ -56,7 +56,9 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     @Override
     public BankAccountLookUpResponseDTO lookUp(final BankAccountLookUpRequestDTO request) {
         return BankAccountLookUpResponseDTO
-                .builder().bankCode("214").bankName("Adeshina Lasisi")
+                .builder().bankCode("214")
+                .accountNumber(RandomStringUtils.randomNumeric(10))
+                .accountName("Adeshina Omolola Shina")
                 .bankName("Fist City Monument Bank (FCMB)").build();
     }
 
