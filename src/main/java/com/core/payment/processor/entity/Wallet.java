@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "wallet", indexes = {
-        @Index(name = "ix_wallet_owner_id_uq", columnList = "owner_id", unique = true),
+        @Index(name = "ix_wallet_owner_id_account_number_uq", columnList = "owner_id,account_number", unique = true),
         @Index(name = "ix_wallet_reference_uq", columnList = "reference", unique = true),
         @Index(name = "ix_wallet_account_name_uq", columnList = "account_name"),
-        @Index(name = "ix_wallet_account_number_uq", columnList = "account_number")
+        @Index(name = "ix_wallet_account_number_uq", columnList = "account_number", unique = true)
 })
 public class Wallet extends AbstractBaseEntity implements Serializable {
     @Column(name = "owner_id")

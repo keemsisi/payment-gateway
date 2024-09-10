@@ -5,14 +5,13 @@ import com.core.payment.processor.common.dto.response.GenericApiResponse;
 import com.core.payment.processor.entity.Bank;
 import com.core.payment.processor.service.core.transaction.bank.BankService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -25,22 +24,17 @@ public class BankController {
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Bank>> addBank(@Valid @RequestBody CreateBankRequestDTO request) {
-        return new ResponseEntity<>(bankService.addBank(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(new GenericApiResponse<>(bankService.addBank(request), "Created successfully", 200), HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Bank>> getAll(@Valid @RequestBody CreateBankRequestDTO request) {
-        return new ResponseEntity<>(bankService.getAll(request), HttpStatus.OK);
+    public ResponseEntity<GenericApiResponse<Page<Bank>>> getAll(Pageable request) {
+        return new ResponseEntity<>(new GenericApiResponse<>(bankService.getAll(request), "Fetched successfully", 200), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Bank>> delete(@Valid @RequestBody CreateBankRequestDTO request) {
-        return new ResponseEntity<>(bankService.delete(request), HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Bank>> update(@Valid @RequestBody CreateBankRequestDTO request) {
-        return new ResponseEntity<>(bankService.update(request), HttpStatus.OK);
+    @RequestMapping(value = "/{bankId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GenericApiResponse<Bank>> delete(final @PathVariable Long bankId) {
+        return new ResponseEntity<>(new GenericApiResponse<>(bankService.delete(bankId), "Deleted successfully", 200), HttpStatus.OK);
     }
 
 }

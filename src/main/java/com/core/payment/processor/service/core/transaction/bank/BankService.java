@@ -1,15 +1,14 @@
 package com.core.payment.processor.service.core.transaction.bank;
 
 import com.core.payment.processor.common.dto.request.bank.CreateBankRequestDTO;
-import com.core.payment.processor.common.dto.response.GenericApiResponse;
 import com.core.payment.processor.entity.Bank;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BankService {
-    GenericApiResponse<Bank> addBank(CreateBankRequestDTO request);
+    Bank addBank(CreateBankRequestDTO request);
 
-    GenericApiResponse<Bank> getAll(CreateBankRequestDTO request);
+    Page<Bank> getAll(Pageable request);
 
-    GenericApiResponse<Bank> delete(CreateBankRequestDTO request);
-
-    GenericApiResponse<Bank> update(CreateBankRequestDTO request);
+    Bank delete(Long bankId);
 }

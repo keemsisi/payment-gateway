@@ -9,6 +9,7 @@ import com.core.payment.processor.entity.Wallet;
 import com.core.payment.processor.repository.WalletRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class WalletServiceImpl implements WalletService {
         wallet.setReference(ref);
         wallet.setAccountName(request.getName());
         wallet.setOwnerId(request.getOwnerId());
+        wallet.setAccountNumber(RandomStringUtils.randomNumeric(10));
         wallet.setDateCreated(LocalDateTime.now());
         return walletRepository.save(wallet);
     }
@@ -44,7 +46,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet deleteWalletById(Long id) {
+    public Wallet deleteWalletById(final Long id) {
         final var wallet = getWalletById(id);
         walletRepository.delete(wallet);
         return wallet;
