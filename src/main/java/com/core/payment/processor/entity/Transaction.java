@@ -36,4 +36,8 @@ public class Transaction extends AbstractBaseEntity implements Serializable {
     private String metaData;
     private String gatewayMeta;
 
+    @PrePersist
+    public void onCreate() {
+        this.setStatus(TransactionStatus.NEW);
+    }
 }

@@ -45,6 +45,8 @@ public class BankTransactionServiceImpl implements BankTransactionService {
             throw new ApplicationException(400, responseCode.getCode(), responseCode.getMessage());
         }
         walletService.save(wallet);
+        transaction.setStatus(TransactionStatus.SUCCESS);
+        transactionService.save(transaction);
         return transaction;
     }
 
@@ -72,13 +74,14 @@ public class BankTransactionServiceImpl implements BankTransactionService {
                 .receiverAccountId(request.getAccountNumber())
                 .receiverName(request.getAccountName())
                 .fee(BigDecimal.TEN)
+                .amount(request.getAmount())
                 .channel(TransactionChannel.BANK)
                 .dateCompleted(LocalDateTime.now())
                 .status(TransactionStatus.PENDING)
                 .metaData(meta)
                 .build();
         transaction.setDateCreated(LocalDateTime.now());
-        return create(transaction);
+        return transactionService.save(transaction);
     }
 
     @Override

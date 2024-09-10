@@ -56,6 +56,8 @@ public class WalletServiceImpl implements WalletService {
     public Wallet updateWallet(final WalletUpdateRequestDTO updateRequestDTO) {
         final var wallet = getWalletById(updateRequestDTO.getWalletId());
         wallet.setAccountName(updateRequestDTO.getAccountName());
+        wallet.setBalanceAfter(updateRequestDTO.getBalanceAfter());
+        wallet.setBalanceBefore(updateRequestDTO.getBalanceBefore());
         return walletRepository.save(wallet);
     }
 
@@ -82,8 +84,7 @@ public class WalletServiceImpl implements WalletService {
     public void debitWallet(final Transaction transaction, final Wallet wallet) {
         final var balanceBefore = wallet.getBalanceAfter();
         final var netAmount = balanceBefore.subtract(transaction.getAmount());
-        final var balanceAfter = netAmount.subtract(transaction.getFee());
-        wallet.setBalanceAfter(balanceAfter);
+        wallet.setBalanceAfter(netAmount);
         wallet.setBalanceBefore(balanceBefore);
         wallet.setDateUpdated(LocalDateTime.now());
         wallet.setLastTransactionDate(LocalDateTime.now());

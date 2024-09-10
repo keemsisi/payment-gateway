@@ -38,6 +38,8 @@ public class Wallet extends AbstractBaseEntity implements Serializable {
     @PrePersist
     public void onCreate() {
         this.setDateCreated(LocalDateTime.now());
+        balanceAfter = BigDecimal.ZERO;
+        balanceBefore = BigDecimal.ZERO;
     }
 
     @PreUpdate
