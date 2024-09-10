@@ -81,12 +81,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
                 .metaData(meta)
                 .build();
         transaction.setDateCreated(LocalDateTime.now());
-        return transactionService.save(transaction);
-    }
-
-    @Override
-    public Transaction create(Transaction transaction) {
-        return transactionService.create(transaction);
+        return save(transaction);
     }
 
     @Override
