@@ -12,11 +12,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class WalletTransactionServiceImpl implements WalletTransactionService {
     private final TransactionServiceImpl transactionService;
@@ -39,6 +41,7 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
         }
         final var transaction = create(request, senderWallet, receiverWallet);
         walletService.debitWallet(transaction, senderWallet);
+        walletService.creditWallet(transaction, receiverWallet);
         transaction.setDateCompleted(LocalDateTime.now());
         transaction.setDateUpdated(LocalDateTime.now());
         save(transaction);
