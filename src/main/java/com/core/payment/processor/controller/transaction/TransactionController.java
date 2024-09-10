@@ -3,7 +3,7 @@ package com.core.payment.processor.controller.transaction;
 import com.core.payment.processor.common.dto.response.GenericApiResponse;
 import com.core.payment.processor.common.enums.ResponseCodeMapping;
 import com.core.payment.processor.entity.Transaction;
-import com.core.payment.processor.service.core.transaction.TransactionService;
+import com.core.payment.processor.service.core.transaction.TransactionServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/v1/api/transaction")
 public class TransactionController {
-    private final TransactionService transactionService;
+    private final TransactionServiceImpl transactionService;
 
     @RequestMapping(value = "/{transactionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Transaction>> getById(@PathVariable Long transactionId) throws JsonProcessingException {
