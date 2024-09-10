@@ -12,4 +12,11 @@ public class GenericApiResponse<T> {
     private String message;
     private int code;
     private boolean success;
+
+    public GenericApiResponse(T data, String message, int code) {
+        this.data = data;
+        this.message = message;
+        this.code = code;
+        success = false;
+    }
 }

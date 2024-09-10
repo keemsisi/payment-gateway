@@ -38,7 +38,7 @@ public class WalletServiceImpl implements WalletService {
         final var wallet = walletRepository.findById(walletId).orElse(null);
         if (Objects.isNull(wallet)) {
             throw new ApplicationException(404, ResponseCodeMapping.NOT_FOUND.getCode(),
-                    ResponseCodeMapping.OK.getMessage());
+                    ResponseCodeMapping.NOT_FOUND.getMessage());
         }
         return wallet;
     }

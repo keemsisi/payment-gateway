@@ -15,11 +15,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/payments/**").authenticated()
+                .antMatchers("/v1/api/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()
