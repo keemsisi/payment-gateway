@@ -8,7 +8,7 @@ import com.core.payment.processor.service.core.transaction.TransactionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface BankTransactionService extends TransactionService {
-    Transaction initTransfer(BankTransferTransactionRequestDTO request) throws JsonProcessingException;
+    Transaction initAndTransfer(BankTransferTransactionRequestDTO request) throws JsonProcessingException;
 
     Transaction getById(Long transactionId) throws JsonProcessingException;
 

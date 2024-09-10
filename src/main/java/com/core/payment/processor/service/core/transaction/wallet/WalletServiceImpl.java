@@ -83,8 +83,8 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public void debitWallet(final Transaction transaction, final Wallet wallet) {
         final var balanceBefore = wallet.getBalanceAfter();
-        final var netAmount = balanceBefore.subtract(transaction.getAmount());
-        wallet.setBalanceAfter(netAmount);
+        final var balanceAfter = wallet.getBalanceAfter().subtract(transaction.getAmount());
+        wallet.setBalanceAfter(balanceAfter);
         wallet.setBalanceBefore(balanceBefore);
         wallet.setDateUpdated(LocalDateTime.now());
         wallet.setLastTransactionDate(LocalDateTime.now());

@@ -33,7 +33,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public Transaction initTransfer(final BankTransferTransactionRequestDTO request) throws JsonProcessingException {
+    public Transaction initAndTransfer(final BankTransferTransactionRequestDTO request) throws JsonProcessingException {
         final var wallet = walletService.getWalletById(request.getWalletId());//get wallet to debit;
         final var hasBalance = wallet.getBalanceAfter().compareTo(BigDecimal.ZERO) > 0;
         final var transaction = createTransaction(request);
@@ -46,8 +46,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
         }
         walletService.save(wallet);
         transaction.setStatus(TransactionStatus.SUCCESS);
-        transactionService.save(transaction);
-        return transaction;
+        return transactionService.save(transaction);
     }
 
     @Override

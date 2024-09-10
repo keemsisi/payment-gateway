@@ -25,8 +25,8 @@ public class BankTransferController {
     private BankTransactionService transactionService;
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Transaction>> initTransfer(@Valid @RequestBody BankTransferTransactionRequestDTO request) throws JsonProcessingException {
-        final var transaction = transactionService.initTransfer(request);
+    public ResponseEntity<GenericApiResponse<Transaction>> initAndTransfer(@Valid @RequestBody BankTransferTransactionRequestDTO request) throws JsonProcessingException {
+        final var transaction = transactionService.initAndTransfer(request);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.BANK_TRANSFER_INIT_OK.getMessage(),
                 ResponseCodeMapping.BANK_TRANSFER_INIT_OK.getCode(), true), HttpStatus.OK);
     }
@@ -39,8 +39,8 @@ public class BankTransferController {
     }
 
     @RequestMapping(value = "/{transactionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Transaction>> getByCardTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
-        final var transaction = transactionService.getGetWalletTransactionById(transactionId);
+    public ResponseEntity<GenericApiResponse<Transaction>> getByBankTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
+        final var transaction = transactionService.getById(transactionId);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.OK.getMessage(),
                 ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
     }
