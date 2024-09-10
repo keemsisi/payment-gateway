@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public interface WalletTransactionService extends TransactionService {
     Transaction getById(Long transactionId) throws JsonProcessingException;
 
-    Transaction initTransfer(WalletTransactionRequestDTO request) throws JsonProcessingException;
+    Transaction initAndProcess(WalletTransactionRequestDTO request) throws JsonProcessingException;
 
 
     Transaction create(WalletTransactionRequestDTO request, Wallet sender, Wallet receiver) throws JsonProcessingException;

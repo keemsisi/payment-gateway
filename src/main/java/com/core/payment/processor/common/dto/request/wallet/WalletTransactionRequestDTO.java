@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class WalletTransactionRequestDTO extends TransactionRequestDTO {
-    @NotBlank(message = "senderWalletId can't be blank")
+    @NotNull(message = "senderWalletId can't be blank")
     private Long senderWalletId;
-    @NotBlank(message = "receiverWalletId can't be blank")
+    @NotNull(message = "receiverWalletId can't be blank")
     private Long receiverWalletId;
 }

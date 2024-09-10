@@ -10,7 +10,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -18,7 +21,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/v1/api/transaction/card")
 public class CardTransactionController {
-    private CardTransactionService transactionService;
+    private final CardTransactionService transactionService;
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Transaction>> initTransfer(@Valid @RequestBody CardTransactionRequestDTO request) throws JsonProcessingException {
@@ -26,12 +29,4 @@ public class CardTransactionController {
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.CARD_TRANSACTION_INIT_OK.getMessage(),
                 ResponseCodeMapping.CARD_TRANSACTION_INIT_OK.getCode(), true), HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/{transactionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Transaction>> getByCardTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
-        final var transaction = transactionService.getCardTransactionById(transactionId);
-        return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.OK.getMessage(),
-                ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
-    }
-
 }

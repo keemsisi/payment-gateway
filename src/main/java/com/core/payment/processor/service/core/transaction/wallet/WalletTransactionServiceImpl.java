@@ -24,15 +24,16 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public Transaction getById(Long transactionId) throws JsonProcessingException {
-        return transactionService.getGetWalletTransactionById(transactionId);
+    public Transaction getById(Long transactionId) {
+        return transactionService.getById(transactionId);
     }
 
     @Override
-    public Transaction initTransfer(final WalletTransactionRequestDTO request) throws JsonProcessingException {
+    public Transaction initAndProcess(final WalletTransactionRequestDTO request) throws JsonProcessingException {
         final var senderWallet = walletService.getWalletById(request.getSenderWalletId());
         final var receiverWallet = walletService.getWalletById(request.getReceiverWalletId());
-        if (senderWallet.getBalanceAfter().compareTo(BigDecimal.ZERO) <= 0) {
+        if (senderWallet.getBalanceAfter().compareTo(BigDecimal.ZERO) <= 0
+                || senderWallet.getBalanceAfter().compareTo(request.getAmount()) <= 0) {
             final var responseCode = ResponseCodeMapping.WALLET_TRANSACTION_INSUFFICIENT_BALANCE;
             throw new ApplicationException(400, responseCode.getCode(), responseCode.getMessage());
         }
@@ -54,12 +55,13 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
                 .receiverAccountId(receiverWallet.getAccountNumber())
                 .receiverName(receiverWallet.getAccountName())
                 .fee(BigDecimal.TEN)
+                .amount(request.getAmount())
                 .channel(TransactionChannel.WALLET)
                 .dateCompleted(LocalDateTime.now())
                 .status(TransactionStatus.PENDING)
                 .metaData(meta).build();
         transaction.setDateCreated(LocalDateTime.now());
-        return transactionService.create(transaction);
+        return transactionService.save(transaction);
     }
 
     @Override

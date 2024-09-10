@@ -21,17 +21,10 @@ public class WalletTransactionController {
     private final WalletTransactionService transactionService;
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Transaction>> initTransfer(@Valid @RequestBody WalletTransactionRequestDTO request) throws JsonProcessingException {
-        final var transaction = transactionService.initTransfer(request);
+    public ResponseEntity<GenericApiResponse<Transaction>> initAndProcess(@Valid @RequestBody WalletTransactionRequestDTO request) throws JsonProcessingException {
+        final var transaction = transactionService.initAndProcess(request);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.WALLET_TRANSACTION_INIT_OK.getMessage(),
                 ResponseCodeMapping.WALLET_TRANSACTION_INIT_OK.getCode(), true), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{transactionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Transaction>> getByCardTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
-        final var transaction = transactionService.getGetWalletTransactionById(transactionId);
-        return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.OK.getMessage(),
-                ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
     }
 
 }

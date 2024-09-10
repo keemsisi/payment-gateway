@@ -13,7 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -37,12 +40,4 @@ public class BankTransferController {
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.BANK_LOOKUP_OK.getMessage(),
                 ResponseCodeMapping.BANK_LOOKUP_OK.getCode(), true), HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/{transactionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericApiResponse<Transaction>> getByBankTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
-        final var transaction = transactionService.getById(transactionId);
-        return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.OK.getMessage(),
-                ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
-    }
-
 }
