@@ -27,7 +27,7 @@ public class CardTransactionController {
                 ResponseCodeMapping.CARD_TRANSACTION_INIT_OK.getCode(), true), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{transactionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{transactionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Transaction>> getByCardTransactionId(@PathVariable Long transactionId) throws JsonProcessingException {
         final var transaction = transactionService.getCardTransactionById(transactionId);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.OK.getMessage(),

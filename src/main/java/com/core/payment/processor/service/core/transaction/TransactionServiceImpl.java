@@ -8,7 +8,9 @@ import com.core.payment.processor.common.dto.response.bank.BankTransferTransacti
 import com.core.payment.processor.common.dto.response.card.CardTransactionResponseDTO;
 import com.core.payment.processor.common.dto.response.wallet.WalletTransactionResponseDTO;
 import com.core.payment.processor.common.enums.CardScheme;
+import com.core.payment.processor.common.enums.ResponseCodeMapping;
 import com.core.payment.processor.common.enums.TransactionStatus;
+import com.core.payment.processor.common.exceptions.ApplicationException;
 import com.core.payment.processor.entity.Transaction;
 import com.core.payment.processor.repository.TransactionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -109,6 +111,13 @@ public class TransactionServiceImpl implements TransactionService {
                 .senderAccountId(sender.getWalletName())
                 .metaData(metaData)
                 .build();
+    }
+
+    @Override
+    public Transaction getById(final Long transactionId) {
+        return transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new ApplicationException(404, ResponseCodeMapping.NOT_FOUND.getCode(),
+                        ResponseCodeMapping.NOT_FOUND.getMessage()));
     }
 
     @Override

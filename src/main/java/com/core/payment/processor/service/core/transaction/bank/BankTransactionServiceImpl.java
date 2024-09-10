@@ -51,7 +51,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 
     @Override
     public Transaction getById(final Long transactionId) throws JsonProcessingException {
-        return transactionService.getBankTransferTransactionById(transactionId);
+        return transactionService.getById(transactionId);
     }
 
     @Override

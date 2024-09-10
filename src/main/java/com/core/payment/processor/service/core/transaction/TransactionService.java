@@ -24,5 +24,9 @@ public interface TransactionService {
         throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
     }
 
+    default Transaction getById(final Long id) throws JsonProcessingException {
+        throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
+    }
+
     Transaction save(final Transaction transaction);
 }
