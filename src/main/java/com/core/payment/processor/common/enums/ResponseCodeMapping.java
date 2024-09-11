@@ -20,7 +20,7 @@ public enum ResponseCodeMapping {
     WALLET_TRANSACTION_CREDIT_FAILED(50001, "Wallet transaction credit failed"),
     WALLET_TRANSACTION_DEBIT_FAILED(50002, "Wallet transaction debit failed"),
     WALLET_TRANSACTION_INSUFFICIENT_BALANCE(50003, "Wallet transaction failed due to insufficient balance"),
-    WALLET_TRANSACTION_INIT_OK(60004, "Oops! Wallet transaction init failed!"),
+    WALLET_TRANSACTION_INIT_OK(60004, "Wallet transaction init successful!"),
 
     CARD_TRANSACTION_CREDIT_OK(60000, "Card transaction was successful"),
     CARD_TRANSACTION_CREDIT_FAILED(60001, "Oops! Failed to credit wallet!"),

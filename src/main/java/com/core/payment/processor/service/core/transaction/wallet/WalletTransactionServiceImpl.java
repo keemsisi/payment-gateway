@@ -44,6 +44,8 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
         walletService.creditWallet(transaction, receiverWallet);
         transaction.setDateCompleted(LocalDateTime.now());
         transaction.setDateUpdated(LocalDateTime.now());
+        transaction.setStatus(TransactionStatus.SUCCESS);
+        transaction.setDateUpdated(LocalDateTime.now());
         save(transaction);
         return transaction;
     }
