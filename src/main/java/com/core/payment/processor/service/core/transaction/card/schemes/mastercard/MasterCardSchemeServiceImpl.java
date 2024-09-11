@@ -2,7 +2,8 @@ package com.core.payment.processor.service.core.transaction.card.schemes.masterc
 
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.service.core.transaction.card.schemes.CardSchemeService;
-import com.core.payment.processor.service.core.transaction.card.schemes.mastercard.gateway.PaypalPaymentGatewayServiceImpl;
+import com.core.payment.processor.service.core.transaction.card.schemes.CardUtils;
+import com.core.payment.processor.service.core.transaction.card.schemes.visa.gateway.StripePaymentGatewayServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,25 +13,26 @@ import java.math.BigDecimal;
 @Component(value = "masterCardScheme")
 @AllArgsConstructor
 public class MasterCardSchemeServiceImpl implements CardSchemeService {
-    private PaypalPaymentGatewayServiceImpl paymentGatewayService;
+    private StripePaymentGatewayServiceImpl paymentGatewayService;
+
     @Override
     public boolean validateExpiryDate(String expiryDate) {
-        return false;
+        return CardUtils.validateExpiryDate(expiryDate);
     }
 
     @Override
-    public boolean validateCVV(String cvv) {
-        return false;
+    public boolean validateCVV(final String cvv) {
+        return CardUtils.validateCVV(cvv);
     }
 
     @Override
-    public TransactionResult authorizeTransaction(final CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {
+    public TransactionResult authorizeTransaction(CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {
         return paymentGatewayService.process();
     }
 
     @Override
     public TransactionResult captureTransaction(String transactionId, double amount) {
-        return null;
+        return paymentGatewayService.init();
     }
 
     @Override

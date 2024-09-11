@@ -4,6 +4,7 @@ import com.core.payment.processor.common.dto.request.card.CardTransactionRequest
 import com.core.payment.processor.service.core.transaction.card.schemes.CardSchemeService;
 import com.core.payment.processor.service.core.transaction.card.schemes.verve.gateway.InterSwitchPaymentGatewayServiceImpl;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,14 +13,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VerveCardSchemeServiceImpl implements CardSchemeService {
     private final InterSwitchPaymentGatewayServiceImpl paymentGatewayService;
+
     @Override
     public boolean validateExpiryDate(String expiryDate) {
         return false;
     }
 
     @Override
-    public boolean validateCVV(String cvv) {
-        return false;
+    public boolean validateCVV(final String cvv) {
+        return !StringUtils.isBlank(cvv) && !(cvv.length() < 3);
     }
 
     @Override
