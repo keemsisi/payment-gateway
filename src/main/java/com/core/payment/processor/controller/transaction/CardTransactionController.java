@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 public class CardTransactionController {
     private final CardTransactionService transactionService;
 
+    @PreAuthorize("hasAuthority('CARD_TRANSFER')")
     @RequestMapping(value = "/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Transaction>> initTransfer(@Valid @RequestBody CardTransactionRequestDTO request) throws JsonProcessingException {
         final var transaction = transactionService.initTransfer(request);
