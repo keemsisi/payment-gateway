@@ -1,5 +1,6 @@
 package com.core.payment.processor.service.core.transaction.card;
 
+import com.core.payment.processor.common.dto.request.card.CardTransactionApprovalRequestDTO;
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.common.dto.response.TransactionChannel;
 import com.core.payment.processor.common.enums.CardScheme;
@@ -29,7 +30,7 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class CardTransactionServiceImpl implements CardTransactionService {
-    private static final String MASKED_PAN_TEMP = "XXXX-XXXX-XXXX-%s";
+    private static final String MASKED_PAN_TEMP = "****-****-****-%s";
     private static final String CARD_GATEWAY_RESPONSE = "OK";
     private final TransactionServiceImpl transactionService;
     private final ObjectMapper objectMapper;
@@ -52,15 +53,38 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         final var result = cardSchemeService.authorizeTransaction(card, request.getAmount());
         final var resultJson = objectMapper.writeValueAsString(result);
         transaction.setGatewayMeta(resultJson);
-        if (result.getErrorCode().equalsIgnoreCase(CARD_GATEWAY_RESPONSE)) {
+        if (result.isSuccess()) {
             transaction.setStatus(TransactionStatus.SUCCESS);
             transaction.setDateCompleted(LocalDateTime.now());
             transaction.setDateUpdated(LocalDateTime.now());
             transactionService.save(transaction);
+            log.info(">>> Card Init transaction[{}] completed successfully!", maskedPan);
+            return transaction;
         }
-        walletService.creditWallet(transaction, wallet);
-        log.info(">>> Card transaction[{}] completed successfully!", maskedPan);
-        return buildCardTransactionResponse();
+        throw new ApplicationException(400, ResponseCodeMapping.TRANSACTION_FAILED.getCode(),
+                ResponseCodeMapping.TRANSACTION_FAILED.getMessage());
+    }
+
+    @Override
+    public Transaction approve(final CardTransactionApprovalRequestDTO request) throws JsonProcessingException {
+        final var transaction = transactionService.getById(request.getTransactionId());
+        if (!transaction.getChannel().equals(TransactionChannel.CARD)) {
+            throw new ApplicationException(400, ResponseCodeMapping.TRANSACTION_FAILED.getCode(), ResponseCodeMapping.TRANSACTION_FAILED.getMessage());
+        }
+        final var cardRequest = objectMapper.readValue(transaction.getMetaData(), CardTransactionRequestDTO.class);
+        final var cardScheme = cardRequest.getCard().getScheme();
+        final var walletId = cardRequest.getWalletId();
+        final var wallet = walletService.getWalletById(walletId);
+        final var cardSchemeService = getCardSchemeProvider(cardScheme);
+        final var cardTransactionResponse = cardSchemeService.authorizeTransaction(cardRequest.getCard(), transaction.getAmount());
+        if (cardTransactionResponse.isSuccess()) {
+            walletService.creditWallet(transaction, wallet);
+            transaction.setDateUpdated(LocalDateTime.now());
+            transaction.setDateCompleted(LocalDateTime.now());
+            transaction.setStatus(TransactionStatus.SUCCESS);
+            return transactionService.save(transaction);
+        }
+        throw new ApplicationException(402, ResponseCodeMapping.TRANSACTION_FAILED.getCode(), ResponseCodeMapping.TRANSACTION_FAILED.getMessage());
     }
 
     private Transaction buildCardTransactionResponse() throws JsonProcessingException {

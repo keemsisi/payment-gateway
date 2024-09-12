@@ -79,7 +79,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .dateCompleted(LocalDateTime.now())
                 .fee(BigDecimal.TEN)
                 .receiverName(receiver.getAccountNumber())
-                .channel(TransactionChannel.BANK)
+                .channel(TransactionChannel.CARD)
                 .status(TransactionStatus.SUCCESS)
                 .senderAccountId(sender.getAccountName())
                 .metaData(metaData)

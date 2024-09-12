@@ -1,5 +1,6 @@
 package com.core.payment.processor.controller.transaction;
 
+import com.core.payment.processor.common.dto.request.card.CardTransactionApprovalRequestDTO;
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.common.dto.response.GenericApiResponse;
 import com.core.payment.processor.common.enums.ResponseCodeMapping;
@@ -32,5 +33,12 @@ public class CardTransactionController {
         final var transaction = transactionService.initTransfer(request);
         return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.CARD_TRANSACTION_INIT_OK.getMessage(),
                 ResponseCodeMapping.CARD_TRANSACTION_INIT_OK.getCode(), true), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/transfer/approve", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GenericApiResponse<Transaction>> approveTransfer(@Valid @RequestBody CardTransactionApprovalRequestDTO request) throws JsonProcessingException {
+        final var transaction = transactionService.approve(request);
+        return new ResponseEntity<>(new GenericApiResponse<>(transaction, ResponseCodeMapping.CARD_TRANSACTION_OK.getMessage(),
+                ResponseCodeMapping.CARD_TRANSACTION_OK.getCode(), true), HttpStatus.OK);
     }
 }

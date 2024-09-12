@@ -13,16 +13,13 @@ public final class CardUtils {
                 return false;
             }
             int cardMonth = Integer.parseInt(cardExpiry[0].trim());
-            int cardYear = Integer.parseInt(cardExpiry[1].trim());
-            if (cardMonth < 1 || cardMonth > 12 || cardYear < 1000 || cardYear > 9999) {
+            int cardYear = 2_000 + Integer.parseInt(cardExpiry[1].trim());
+            if (cardMonth < 1 || cardMonth > 12 || cardYear < 2000 || cardYear > 9999) {
                 return false;
             }
             LocalDate today = LocalDate.now();
             int currentMonth = today.getMonthValue();
             int currentYear = today.getYear();
-            if (cardYear < 100) {
-                cardYear += 2000;
-            }
             return cardYear >= currentYear && (cardYear != currentYear || cardMonth >= currentMonth);
         } catch (NumberFormatException | DateTimeParseException e) {
             return false;
