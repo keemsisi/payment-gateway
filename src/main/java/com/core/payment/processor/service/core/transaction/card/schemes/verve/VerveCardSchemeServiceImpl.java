@@ -2,7 +2,6 @@ package com.core.payment.processor.service.core.transaction.card.schemes.verve;
 
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.service.core.transaction.card.schemes.CardSchemeService;
-import com.core.payment.processor.service.core.transaction.card.schemes.CardUtils;
 import com.core.payment.processor.service.core.transaction.card.schemes.verve.gateway.InterSwitchPaymentGatewayServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,16 +12,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VerveCardSchemeServiceImpl implements CardSchemeService {
     private final InterSwitchPaymentGatewayServiceImpl paymentGatewayService;
-
-    @Override
-    public boolean validateExpiryDate(String expiryDate) {
-        return CardUtils.validateExpiryDate(expiryDate);
-    }
-
-    @Override
-    public boolean validateCVV(final String cvv) {
-        return CardUtils.validateCVV(cvv);
-    }
 
     @Override
     public TransactionResult authorizeTransaction(CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class CardTransactionRequestDTO extends TransactionRequestDTO {
     @NotNull(message = "card detail can't be null")
     private CardDTO card;
-    @NotBlank(message = "walletId can't be blank")
+    @NotNull(message = "walletId can't be null")
     private Long walletId;
 
     @Getter

@@ -2,7 +2,6 @@ package com.core.payment.processor.service.core.transaction.card.schemes.visa;
 
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.service.core.transaction.card.schemes.CardSchemeService;
-import com.core.payment.processor.service.core.transaction.card.schemes.CardUtils;
 import com.core.payment.processor.service.core.transaction.card.schemes.mastercard.gateway.PaypalPaymentGatewayServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,16 +12,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VisaCardSchemeServiceImpl implements CardSchemeService {
     private PaypalPaymentGatewayServiceImpl paymentGatewayService;
-
-    @Override
-    public boolean validateExpiryDate(String expiryDate) {
-        return CardUtils.validateExpiryDate(expiryDate);
-    }
-
-    @Override
-    public boolean validateCVV(final String cvv) {
-        return CardUtils.validateCVV(cvv);
-    }
 
     @Override
     public TransactionResult authorizeTransaction(CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {

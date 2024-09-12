@@ -7,13 +7,16 @@ import java.math.BigDecimal;
 
 public interface CardSchemeService {
     default boolean validateCardNumber(String cardNumber) {
-        String cleanCardNumber = cardNumber.replaceAll("\\D", "");
-        return !cleanCardNumber.isEmpty() && cleanCardNumber.matches("\\d+");
+        return CardUtils.validateCardNumber(cardNumber);
     }
 
-    boolean validateExpiryDate(final String expiryDate);
+    default boolean validateExpiryDate(final String expiryDate) {
+        return CardUtils.validateExpiryDate(expiryDate);
+    }
 
-    boolean validateCVV(final String cvv);
+    default boolean validateCVV(final String cvv) {
+        return CardUtils.validateCVV(cvv);
+    }
 
     TransactionResult authorizeTransaction(final CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount);
 
@@ -22,6 +25,13 @@ public interface CardSchemeService {
     TransactionResult refundTransaction(String transactionId, double amount);
 
     String getErrorDescription(String errorCode);
+
+    default boolean isValid(CardTransactionRequestDTO.CardDTO card) {
+        final var isCVVValid = validateCVV(card.getCvv());
+        final var isCardValid = validateCardNumber(card.getNumber());
+        final var isExpiryDateValid = validateExpiryDate(card.getExpiry());
+        return isCardValid && isCVVValid && isExpiryDateValid;
+    }
 
     @Builder
     @NoArgsConstructor

@@ -2,7 +2,6 @@ package com.core.payment.processor.service.core.transaction.card.schemes.masterc
 
 import com.core.payment.processor.common.dto.request.card.CardTransactionRequestDTO;
 import com.core.payment.processor.service.core.transaction.card.schemes.CardSchemeService;
-import com.core.payment.processor.service.core.transaction.card.schemes.CardUtils;
 import com.core.payment.processor.service.core.transaction.card.schemes.visa.gateway.StripePaymentGatewayServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,16 +13,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class MasterCardSchemeServiceImpl implements CardSchemeService {
     private StripePaymentGatewayServiceImpl paymentGatewayService;
-
-    @Override
-    public boolean validateExpiryDate(String expiryDate) {
-        return CardUtils.validateExpiryDate(expiryDate);
-    }
-
-    @Override
-    public boolean validateCVV(final String cvv) {
-        return CardUtils.validateCVV(cvv);
-    }
 
     @Override
     public TransactionResult authorizeTransaction(CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {
@@ -42,6 +31,6 @@ public class MasterCardSchemeServiceImpl implements CardSchemeService {
 
     @Override
     public String getErrorDescription(String errorCode) {
-        return "";
+        return "Error description here!";
     }
 }

@@ -26,7 +26,8 @@ public enum ResponseCodeMapping {
     CARD_TRANSACTION_CREDIT_FAILED(60001, "Oops! Failed to credit wallet!"),
     CARD_TRANSACTION_DEBIT_FAILED(60002, "Oops! Failed to debit wallet!"),
     CARD_CVV_INVALID(60003, "Oops! Card CVV invalid!"),
-    CARD_TRANSACTION_INIT_OK(60004, "Oops! Card transaction init failed!");
+    CARD_TRANSACTION_INIT_OK(60004, "Oops! Card transaction init failed!"),
+    CARD_VALIDATION_FAILED(60005, "Oops! Card validation failed! Please make sure card details are correct!");
 
     private final int code;
     private final String message;

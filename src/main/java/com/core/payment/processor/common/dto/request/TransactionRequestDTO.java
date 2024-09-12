@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 
 @Getter
@@ -15,5 +16,6 @@ import java.math.BigDecimal;
 public abstract class TransactionRequestDTO {
     private TransactionChannel channel;
     private String narration;
+    @Min(value = 5, message = "Minimum amount required for payment is 5")
     private BigDecimal amount;
 }

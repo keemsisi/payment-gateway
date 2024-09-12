@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +40,13 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     @Override
     public Transaction initTransfer(final CardTransactionRequestDTO request) throws JsonProcessingException {
         final var wallet = walletService.getWalletById(request.getWalletId());
-        final var card = request.getCard();
+        final var card = new CardTransactionRequestDTO.CardDTO();
+        BeanUtils.copyProperties(request.getCard(), card);
         final var maskedPan = maskCardPan(card.getNumber());
         final var transaction = createTransaction(request, wallet);
         final var cardSchemeService = getCardSchemeProvider(card.getScheme());
-        final var isValid = cardSchemeService.validateCVV(card.getCvv());
-        if (!isValid) {
-            final var responseCode = ResponseCodeMapping.CARD_TRANSACTION_DEBIT_FAILED;
+        if (!cardSchemeService.isValid(card)) {
+            final var responseCode = ResponseCodeMapping.CARD_VALIDATION_FAILED;
             throw new ApplicationException(400, responseCode.getCode(), responseCode.getMessage());
         }
         final var result = cardSchemeService.authorizeTransaction(card, request.getAmount());
@@ -90,13 +91,14 @@ public class CardTransactionServiceImpl implements CardTransactionService {
                 .senderName(request.getCard().getName())
                 .receiverAccountId(wallet.getAccountNumber())
                 .receiverName(wallet.getAccountName())
-                .fee(BigDecimal.TEN)
+                .fee(BigDecimal.ONE)
+                .amount(request.getAmount())
                 .channel(TransactionChannel.CARD)
                 .dateCompleted(LocalDateTime.now())
                 .status(TransactionStatus.PENDING)
                 .metaData(meta).build();
         transaction.setDateCreated(LocalDateTime.now());
-        return transactionService.create(transaction);
+        return transactionService.save(transaction);
     }
 
     private String maskCardPan(final String pan) {

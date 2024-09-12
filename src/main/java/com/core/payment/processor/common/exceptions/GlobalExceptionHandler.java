@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,11 +16,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import javax.validation.ConstraintViolationException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends DefaultResponseErrorHandler {
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<GenericApiResponse<Map<Object, Object>>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
+        final var errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(
+                new GenericApiResponse<>(errors, "Request validation errors", 400),
+                HttpStatus.BAD_REQUEST);
+    }
 
     @ResponseBody
     @ExceptionHandler(ApplicationException.class)
@@ -61,13 +79,6 @@ public class GlobalExceptionHandler extends DefaultResponseErrorHandler {
         return new GenericApiResponse<>(null, "Request body is missing or bad request format!", 400);
     }
 
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public GenericApiResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        log.error(ex.getMessage(), ex);
-        return new GenericApiResponse<>(null, "Failed validation for request!", 400);
-    }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
