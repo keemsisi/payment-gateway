@@ -29,7 +29,7 @@ public enum ResponseCodeMapping {
     CARD_TRANSACTION_INIT_OK(60004, "Oops! Card transaction init successful!"),
     CARD_VALIDATION_FAILED(60005, "Oops! Card validation failed! Please make sure card details are correct!"),
     CARD_TRANSACTION_INIT_FAILED(60006, "Oops! Card init failed, please try again later or contact support!"),
-    CARD_TRANSACTION_OK(60000, "Card transaction was successful!");
+    CARD_TRANSACTION_OK(60007, "Card transaction was successful!");
 
     private final int code;
     private final String message;
