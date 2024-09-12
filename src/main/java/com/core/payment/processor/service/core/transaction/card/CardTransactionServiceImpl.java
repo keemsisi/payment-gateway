@@ -91,10 +91,6 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         throw new ApplicationException(402, ResponseCodeMapping.TRANSACTION_FAILED.getCode(), ResponseCodeMapping.TRANSACTION_FAILED.getMessage());
     }
 
-    private Transaction buildCardTransactionResponse() throws JsonProcessingException {
-        return transactionService.getCardTransactionById(1L);
-    }
-
     private CardSchemeService getCardSchemeProvider(final CardScheme scheme) {
         return switch (scheme) {
             case MASTERCARD -> (MasterCardSchemeServiceImpl) context.getBean("masterCardScheme");

@@ -12,18 +12,6 @@ public interface TransactionService {
         throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
     }
 
-    default Transaction getBankTransferTransactionById(final Long transactionId) throws JsonProcessingException {
-        throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
-    }
-
-    default Transaction getCardTransactionById(final Long transactionId) throws JsonProcessingException {
-        throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
-    }
-
-    default Transaction getGetWalletTransactionById(final Long transactionId) throws JsonProcessingException {
-        throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
-    }
-
     default Transaction getById(final Long id) throws JsonProcessingException {
         throw new NotImplementedException(HttpStatus.NOT_IMPLEMENTED.value(), NOT_IMPLEMENTED);
     }
