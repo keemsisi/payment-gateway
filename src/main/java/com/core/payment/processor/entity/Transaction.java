@@ -34,7 +34,8 @@ public class Transaction extends AbstractBaseEntity implements Serializable {
     private String senderAccountId;
     private String receiverAccountId;
     private String metaData;
-    private String gatewayMeta;
+    private String getWayMeta;
+    private String gateWayAuthMeta;
 
     @PrePersist
     public void onCreate() {

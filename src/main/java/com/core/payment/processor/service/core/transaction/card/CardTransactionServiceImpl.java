@@ -50,9 +50,9 @@ public class CardTransactionServiceImpl implements CardTransactionService {
             final var responseCode = ResponseCodeMapping.CARD_VALIDATION_FAILED;
             throw new ApplicationException(400, responseCode.getCode(), responseCode.getMessage());
         }
-        final var result = cardSchemeService.authorizeTransaction(card, request.getAmount());
+        final var result = cardSchemeService.captureTransaction(card, request.getAmount());
         final var resultJson = objectMapper.writeValueAsString(result);
-        transaction.setGatewayMeta(resultJson);
+        transaction.setGetWayMeta(resultJson);
         if (result.isSuccess()) {
             transaction.setStatus(TransactionStatus.PENDING);
             transaction.setDateCompleted(LocalDateTime.now());
@@ -80,10 +80,12 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         final var cardSchemeService = getCardSchemeProvider(cardScheme);
         final var cardTransactionResponse = cardSchemeService.authorizeTransaction(cardRequest.getCard(), transaction.getAmount());
         if (cardTransactionResponse.isSuccess()) {
+            final var meta = objectMapper.writeValueAsString(cardTransactionResponse);
             walletService.creditWallet(transaction, wallet);
             transaction.setDateUpdated(LocalDateTime.now());
             transaction.setDateCompleted(LocalDateTime.now());
             transaction.setStatus(TransactionStatus.SUCCESS);
+            transaction.setGateWayAuthMeta(meta);
             return transactionService.save(transaction);
         }
         throw new ApplicationException(402, ResponseCodeMapping.TRANSACTION_FAILED.getCode(), ResponseCodeMapping.TRANSACTION_FAILED.getMessage());

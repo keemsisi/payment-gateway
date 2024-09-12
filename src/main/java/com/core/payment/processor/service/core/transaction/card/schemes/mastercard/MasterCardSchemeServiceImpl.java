@@ -20,7 +20,7 @@ public class MasterCardSchemeServiceImpl implements CardSchemeService {
     }
 
     @Override
-    public TransactionResult captureTransaction(String transactionId, double amount) {
+    public TransactionResult captureTransaction(CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount) {
         return paymentGatewayService.init();
     }
 

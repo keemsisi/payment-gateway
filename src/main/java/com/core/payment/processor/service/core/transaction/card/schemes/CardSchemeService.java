@@ -20,7 +20,7 @@ public interface CardSchemeService {
 
     TransactionResult authorizeTransaction(final CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount);
 
-    TransactionResult captureTransaction(String transactionId, double amount);
+    TransactionResult captureTransaction(final CardTransactionRequestDTO.CardDTO cardDTO, BigDecimal amount);
 
     TransactionResult refundTransaction(String transactionId, double amount);
 
