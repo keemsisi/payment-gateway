@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -24,6 +25,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler extends DefaultResponseErrorHandler {
 
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<GenericApiResponse<?>> handleAccessDeniedException(final AccessDeniedException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseEntity.status(403)
+                .body(new GenericApiResponse<>(ex.getMessage(), ex.getMessage(), 403));
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -83,10 +91,9 @@ public class GlobalExceptionHandler extends DefaultResponseErrorHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public GenericApiResponse<?> handleInternalServerExceptions(Exception ex) {
+    public ResponseEntity<GenericApiResponse<?>> handleInternalServerExceptions(final Exception ex) {
         log.error(ex.getMessage(), ex);
-        return new GenericApiResponse<>(null, "Oops! An error occurred, please contact support!", 500);
+        return ResponseEntity.internalServerError()
+                .body(new GenericApiResponse<>(null, "Oops! An error occurred, please contact support!", 500));
     }
-
-
 }
