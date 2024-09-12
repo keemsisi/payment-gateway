@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public class WalletController {
     private final WalletService walletService;
 
+    @PreAuthorize("hasAuthority('CREATE_WALLET')")
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Wallet>> createWallet(@Valid @RequestBody CreateWalletDTO request) {
         final var wallet = walletService.createWallet(request);
@@ -34,6 +36,7 @@ public class WalletController {
                 ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('DELETE_WALLET')")
     @RequestMapping(value = "/{walletId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Wallet>> delete(@PathVariable(value = "walletId") Long walletId) {
         final var wallet = walletService.deleteWalletById(walletId);
@@ -41,6 +44,7 @@ public class WalletController {
                 ResponseCodeMapping.OK.getCode(), true), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('UPDATE_WALLET')")
     @RequestMapping(method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericApiResponse<Wallet>> update(@Valid @RequestBody WalletUpdateRequestDTO request) {
         final var wallet = walletService.updateWallet(request);
