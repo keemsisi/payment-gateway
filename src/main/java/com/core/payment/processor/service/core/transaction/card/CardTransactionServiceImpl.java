@@ -54,7 +54,7 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         final var resultJson = objectMapper.writeValueAsString(result);
         transaction.setGatewayMeta(resultJson);
         if (result.isSuccess()) {
-            transaction.setStatus(TransactionStatus.SUCCESS);
+            transaction.setStatus(TransactionStatus.PENDING);
             transaction.setDateCompleted(LocalDateTime.now());
             transaction.setDateUpdated(LocalDateTime.now());
             transactionService.save(transaction);
@@ -70,6 +70,8 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         final var transaction = transactionService.getById(request.getTransactionId());
         if (!transaction.getChannel().equals(TransactionChannel.CARD)) {
             throw new ApplicationException(400, ResponseCodeMapping.TRANSACTION_FAILED.getCode(), ResponseCodeMapping.TRANSACTION_FAILED.getMessage());
+        } else if (transaction.getStatus().equals(TransactionStatus.SUCCESS)) {
+            return transaction;
         }
         final var cardRequest = objectMapper.readValue(transaction.getMetaData(), CardTransactionRequestDTO.class);
         final var cardScheme = cardRequest.getCard().getScheme();
