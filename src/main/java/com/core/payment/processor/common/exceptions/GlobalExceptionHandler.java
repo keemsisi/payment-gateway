@@ -26,7 +26,7 @@ import java.util.Map;
 public class GlobalExceptionHandler extends DefaultResponseErrorHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<GenericApiResponse<?>> handleAccessDeniedException(final AccessDeniedException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.status(403)
