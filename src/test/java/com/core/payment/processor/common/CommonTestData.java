@@ -1,4 +1,4 @@
-package com.core.payment.processor;
+package com.core.payment.processor.common;
 
 import com.core.payment.processor.common.dto.request.bank.BankTransactionOwnerDTO;
 import com.core.payment.processor.common.dto.request.card.CardTransactionOwnerDTO;
@@ -17,7 +17,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public final class CommonData {
+public final class CommonTestData {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static Transaction getBankTransferTransactionById(final Long transactionId) throws JsonProcessingException {
